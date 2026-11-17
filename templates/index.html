@@ -1,0 +1,191 @@
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume | Smart Career</title>
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <nav class="navbar">
+        <a class="logo" href="/">ResumeAI</a>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#upload">Screen Resume</a>
+            <a href="#jobs">Jobs</a>
+            <a href="{{ url_for('history') }}">Analysis History</a>
+            <a href="{{ url_for('register') }}">Register</a>
+            <a href="{{ url_for('login') }}">Login</a>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <p class="eyebrow">SMART CAREER PLATFORM</p>
+            <h1>Find Your Next Opportunity With AI</h1>
+            <p>
+                Upload your resume, discover your skills,
+                and find job opportunities that match your profile.
+            </p>
+            <a class="primary-btn" href="#upload">Get Started</a>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <h2>What Our System Can Do</h2>
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>Resume Screening</h3>
+                <p>Upload a PDF and extract resume text automatically.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Skill Detection</h3>
+                <p>Identify technical skills mentioned in your resume.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Job Recommendations</h3>
+                <p>Explore job roles based on your detected skills.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="upload-section" id="upload">
+        <h2>Analyze Your Resume</h2>
+        <p>Choose a text-based PDF resume to get started.</p>
+
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="resume"
+                   accept=".pdf,application/pdf" required>
+            <button type="submit" class="primary-btn">
+                Upload and Analyze
+            </button>
+        </form>
+
+        {% if message %}
+            <p class="message">{{ message }}</p>
+        {% endif %}
+
+        {% if found_skills %}
+            <div class="results">
+                <h2>Detected Skills</h2>
+                <div class="skill-list">
+                    {% for skill in found_skills %}
+                        <span class="skill-tag">{{ skill }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+        
+{% if recommended_jobs %}
+<div class="results">
+    <h2>AI Job Recommendations</h2>
+    <p>Jobs ranked according to resume similarity.</p>
+
+    {% for job in recommended_jobs %}
+    <div class="feature-card" style="margin-top:20px;">
+
+        <h3>{{ job.title }}</h3>
+
+        <p>
+            Resume Match Score:
+            <strong>{{ job.score }}%</strong>
+        </p>
+
+        <h4>Matched Skills</h4>
+        {% if job.matched_skills %}
+            {% for skill in job.matched_skills %}
+                <span class="skill-tag">{{ skill }}</span>
+            {% endfor %}
+        {% else %}
+            <p>No matching skills found.</p>
+        {% endif %}
+
+        <h4 style="margin-top:15px;">Missing Skills</h4>
+        {% if job.missing_skills %}
+            {% for skill in job.missing_skills %}
+                <span class="skill-tag"
+                      style="background:#fee2e2;color:#991b1b;">
+                    {{ skill }}
+                </span>
+            {% endfor %}
+        {% else %}
+            <p>No missing skills!</p>
+        {% endif %}
+
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+{% if recommended_jobs %}
+<div class="results">
+    <h2>AI Job Recommendations</h2>
+    <p>Jobs ranked according to resume similarity.</p>
+
+    {% for job in recommended_jobs %}
+    <div class="feature-card" style="margin-top:20px;">
+
+        <h3>{{ job.title }}</h3>
+
+        <p>
+            Resume Match Score:
+            <strong>{{ job.score }}%</strong>
+        </p>
+
+        <h4>Matched Skills</h4>
+        {% if job.matched_skills %}
+            {% for skill in job.matched_skills %}
+                <span class="skill-tag">{{ skill }}</span>
+            {% endfor %}
+        {% else %}
+            <p>No matching skills found.</p>
+        {% endif %}
+
+        <h4 style="margin-top:15px;">Missing Skills</h4>
+        {% if job.missing_skills %}
+            {% for skill in job.missing_skills %}
+                <span class="skill-tag"
+                      style="background:#fee2e2;color:#991b1b;">
+                    {{ skill }}
+                </span>
+            {% endfor %}
+        {% else %}
+            <p>No missing skills!</p>
+        {% endif %}
+
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+
+
+        {% if resume_text %}
+            <details class="results">
+                <summary>View Extracted Resume Text</summary>
+                <pre>{{ resume_text }}</pre>
+            </details>
+        {% endif %}
+    </section>
+
+    <section class="jobs-section" id="jobs">
+        <h2>Job Recommendations</h2>
+        <p>
+            Your job suggestions will appear here as we build
+            the job-matching feature.
+        </p>
+    </section>
+
+    <footer>
+        <p>AI Powered Resume Screening and Job Recommendation System</p>
+        <p>MCA Final Year Project</p>
+    </footer>
+
+</body>
+</html>

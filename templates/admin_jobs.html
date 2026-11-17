@@ -1,0 +1,137 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Job Management | SmartHire AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <a class="logo" href="/admin">
+            SmartHire AI Admin
+        </a>
+
+        <div class="nav-links">
+            <a href="/admin">Dashboard</a>
+            <a href="/admin/users">Users</a>
+            <a href="/admin/jobs">Jobs</a>
+            <a href="/logout">Logout</a>
+        </div>
+
+    </nav>
+
+    <section class="history-section">
+
+        <h1>Job Management</h1>
+
+        <p>Add and manage job opportunities.</p>
+
+        {% if message %}
+            <p class="message">{{ message }}</p>
+        {% endif %}
+
+        <div class="history-card">
+
+            <h2>Add New Job</h2>
+
+            <form method="POST" class="job-form">
+
+                <label>Job Title</label>
+
+                <input
+                    type="text"
+                    name="title"
+                    placeholder="Python Developer"
+                    required
+                >
+
+                <label>Required Skills</label>
+
+                <input
+                    type="text"
+                    name="skills"
+                    placeholder="Python, Flask, SQL, Git"
+                    required
+                >
+
+                <label>Job Description</label>
+
+                <textarea
+                    name="description"
+                    rows="4"
+                    placeholder="Enter job description"
+                    required
+                ></textarea>
+
+                <button type="submit" class="primary-btn">
+                    Add Job
+                </button>
+
+            </form>
+
+        </div>
+
+        <h2>Available Jobs</h2>
+
+        {% for job in jobs %}
+
+            <div class="history-card">
+
+                <h3>{{ job["title"] }}</h3>
+                <a
+                    class="primary-btn"
+                    href="{{ url_for('edit_job', job_id=job['id']) }}"
+                >
+                    Edit Job
+                </a>
+
+                <p>
+                    <strong>Required Skills:</strong>
+                    {{ job["skills_json"] }}
+                </p>
+
+                <p>
+                    <strong>Description:</strong>
+                    {{ job["description"] }}
+                </p>
+
+                <form
+                    method="POST"
+                    action="{{ url_for('delete_job', job_id=job['id']) }}"
+                    onsubmit="return confirm('Delete this job?');"
+                >
+
+                    <button type="submit" class="delete-btn">
+                        Delete Job
+                    </button>
+
+                </form>
+
+            </div>
+
+        {% else %}
+
+            <p>No jobs available.</p>
+
+        {% endfor %}
+
+    </section>
+
+    <footer>
+        <p>SmartHire AI - Job Management</p>
+        <p>MCA Capstone Project</p>
+    </footer>
+
+</body>
+</html>
+

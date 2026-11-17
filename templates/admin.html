@@ -1,0 +1,120 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | SmartHire AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <a class="logo" href="/">SmartHire AI Admin</a>
+
+        <div class="nav-links">
+            <a href="/dashboard">User Dashboard</a>
+            <a href="/admin/users">User Management</a>
+            <a href="/admin/jobs">Job Management</a>
+            <a href="/admin/analytics">Skills Analytics</a>
+            <a href="/history">History</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </nav>
+
+    <section class="history-section">
+
+        <h1>Admin Dashboard</h1>
+
+        <p>Welcome to SmartHire AI Administration Panel.</p>
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+                <h3>Total Users</h3>
+                <h2>{{ total_users }}</h2>
+            </div>
+
+            <div class="feature-card">
+                <h3>Total Resumes</h3>
+                <h2>{{ total_resumes }}</h2>
+            </div>
+
+            <div class="feature-card">
+                <h3>Job Recommendations</h3>
+                <h2>{{ total_recommendations }}</h2>
+            </div>
+
+        </div>
+
+        <div class="history-card" style="margin-top:30px;">
+
+            <h2>Recent Resume Analyses</h2>
+
+            {% if recent_analyses %}
+
+                <div style="overflow-x:auto;">
+
+                    <table style="width:100%; border-collapse:collapse;">
+
+                        <thead>
+                            <tr>
+                                <th style="padding:12px;">ID</th>
+                                <th style="padding:12px;">User</th>
+                                <th style="padding:12px;">Resume</th>
+                                <th style="padding:12px;">Date</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for item in recent_analyses %}
+
+                                <tr>
+                                    <td style="padding:12px;">
+                                        {{ item.id }}
+                                    </td>
+
+                                    <td style="padding:12px;">
+                                        {{ item.name or 'Unknown' }}
+                                    </td>
+
+                                    <td style="padding:12px;">
+                                        {{ item.resume_filename }}
+                                    </td>
+
+                                    <td style="padding:12px;">
+                                        {{ item.created_at }}
+                                    </td>
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <p>No resume analysis records found.</p>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+    <footer>
+        <p>SmartHire AI - Admin Dashboard</p>
+        <p>MCA Capstone Project</p>
+    </footer>
+
+</body>
+</html>

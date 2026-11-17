@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Analysis History | SmartHire AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <a class="logo" href="/">
+            SmartHire AI
+        </a>
+
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/history">Analysis History</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/logout">Logout</a>
+        </div>
+
+    </nav>
+
+
+    <section class="history-section">
+
+        <h1>Resume Analysis History</h1>
+
+        <p>
+            View your previous resume analysis results.
+        </p>
+
+
+        {% if analyses %}
+
+            {% for item in analyses %}
+
+                <div class="history-card">
+
+                    <h2>Analysis #{{ item.id }}</h2>
+
+                    <p>
+                        <strong>Resume File:</strong>
+                        {{ item.resume_filename }}
+                    </p>
+
+                    <p>
+                        <strong>Analysis Date:</strong>
+                        {{ item.created_at }}
+                    </p>
+                    <a
+                         class="primary-btn"
+                         href="{{ url_for('download_report', analysis_id=item.id) }}"
+                    >
+                         Download PDF Report
+                    </a>
+
+
+                    <h3>Detected Skills</h3>
+
+                    <div class="skill-list">
+
+                        {% for skill in item.skills %}
+
+                            <span class="skill-tag">
+                                {{ skill }}
+                            </span>
+
+                        {% else %}
+
+                            <p>No skills detected.</p>
+
+                        {% endfor %}
+
+                    </div>
+
+
+                    <h3>Recommended Jobs</h3>
+
+                    {% for job in item.recommendations %}
+
+                        <div class="history-job">
+
+                            <h4>{{ job.title }}</h4>
+
+                            <p>
+                                Matching Score:
+                                <strong>{{ job.score }}%</strong>
+                            </p>
+
+                            <p>
+                                Matched Skills:
+                                {{ job.matched_skills | join(', ') }}
+                            </p>
+
+                            <p>
+                                Missing Skills:
+                                {{ job.missing_skills | join(', ') }}
+                            </p>
+
+                        </div>
+
+                    {% else %}
+
+                        <p>No job recommendations available.</p>
+
+                    {% endfor %}
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="history-card">
+
+                <h2>No Analysis History Found</h2>
+
+                <p>
+                    You have not uploaded any resume yet.
+                </p>
+
+                <a href="/" class="primary-btn">
+                    Upload Resume
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </section>
+
+
+    <footer>
+
+        <p>
+            AI Powered Resume Screening and Job Recommendation System
+        </p>
+
+        <p>MCA Capstone Project</p>
+
+    </footer>
+
+</body>
+</html>

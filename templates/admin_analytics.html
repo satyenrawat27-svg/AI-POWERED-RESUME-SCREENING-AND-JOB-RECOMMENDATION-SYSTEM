@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Skills Analytics | SmartHire AI</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <a class="logo" href="/admin">
+            SmartHire AI Admin
+        </a>
+
+        <div class="nav-links">
+
+            <a href="/admin">Dashboard</a>
+
+            <a href="/admin/users">Users</a>
+
+            <a href="/admin/jobs">Jobs</a>
+
+            <a href="/admin/analytics">Analytics</a>
+
+            <a href="/logout">Logout</a>
+
+        </div>
+
+    </nav>
+
+
+    <section class="history-section">
+
+        <h1>Skills Analytics Dashboard</h1>
+
+        <p>
+            Technical skills detected in uploaded resumes.
+        </p>
+
+
+        <div class="history-card">
+
+            <h2>Total Analyzed Resumes</h2>
+
+            <h1>{{ total_resumes }}</h1>
+
+        </div>
+
+
+        <div class="history-card">
+
+            <h2>Top Detected Skills</h2>
+
+            {% if analytics %}
+
+                {% for item in analytics %}
+
+                    <div class="analytics-item">
+
+                        <div class="analytics-heading">
+
+                            <strong>
+                                {{ item.skill }}
+                            </strong>
+
+                            <span>
+                                {{ item.count }} resumes
+                            </span>
+
+                        </div>
+
+
+                        <div class="analytics-track">
+
+                            <div
+                                class="analytics-bar"
+                                style="width: {{ item.bar_width }}%;"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p>
+                    No skill analysis data available.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <footer>
+
+        <p>
+            AI Powered Resume Screening and Job Recommendation System
+        </p>
+
+        <p>MCA Capstone Project</p>
+
+    </footer>
+
+</body>
+
+</html>
