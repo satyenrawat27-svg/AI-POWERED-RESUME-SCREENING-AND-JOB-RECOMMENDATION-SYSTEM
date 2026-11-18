@@ -32,7 +32,10 @@ from sklearn.metrics.pairwise import cosine_similarity
 import os
 
 app = Flask(__name__)
-app.secret_key = "smarthire_local_dev_secret_change_later"
+app.secret_key = os.environ.get(
+    "SECRET_KEY",
+    "local-development-only-key"
+)
 # Database file location
 DATABASE = os.path.join(
     os.path.dirname(os.path.abspath(__file__)),
